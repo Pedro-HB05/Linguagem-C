@@ -1,0 +1,167 @@
+//biblioteca
+
+#include <stdio.h>
+
+//define o limite maximo de notas no vetor
+
+#define MAX_NOTAS 100
+
+// Funções que o programa vai utilizar para as operações
+
+void inserirNota(float notas[], int *quantidade);  // Função para inserir uma nova nota
+void exibirNotas(const float notas[], int quantidade);  // Função para exibir todas as notas
+float encontrarMaior(const float notas[], int quantidade);  // Função para encontrar a maior nota
+float encontrarMenor(const float notas[], int quantidade);  // Função para encontrar a menor nota
+float calcularMedia(const float notas[], int quantidade);  // Função para calcular a média das notas
+float calcularModa(const float notas[], int quantidade);  // Função para calcular a moda das notas
+
+int main() {
+    float notas[MAX_NOTAS];  // Vetor para armazenar as notas
+    int quantidade = 0;  // Contador de quantas notas foram inseridas
+    int opcao;  // Variável para armazenar a opção escolhida no menu
+    
+    // Loop principal do programa, que continua até o usuário escolher a opção de sair (opção 7)
+    do {
+        // Exibe o menu de opções para o usuário
+        printf("\nMenu:\n");
+        printf("1. Inserir nota\n");
+        printf("2. Exibir notas\n");
+        printf("3. Maior nota\n");
+        printf("4. Menor nota\n");
+        printf("5. Média das notas\n");
+        printf("6. Moda das notas\n");
+        printf("7. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);  // Lê a escolha do usuário
+        
+        // Usamos o switch para executar a ação correspondente à opção escolhida
+        switch (opcao) {
+            case 1:
+                inserirNota(notas, &quantidade);  // Chama a função para inserir uma nova nota
+                break;
+            case 2:
+                exibirNotas(notas, quantidade);  // Chama a função para exibir todas as notas
+                break;
+            case 3:
+                if (quantidade > 0) {  // Verifica se há notas inseridas
+                    printf("Maior nota: %.2f\n", encontrarMaior(notas, quantidade));  // Exibe a maior nota
+                } else {
+                    printf("Nenhuma nota inserida.\n");
+                }
+                break;
+            case 4:
+                if (quantidade > 0) {  // Verifica se há notas inseridas
+                    printf("Menor nota: %.2f\n", encontrarMenor(notas, quantidade));  // Exibe a menor nota
+                } else {
+                    printf("Nenhuma nota inserida.\n");
+                }
+                break;
+            case 5:
+                if (quantidade > 0) {  // Verifica se há notas inseridas
+                    printf("Média: %.2f\n", calcularMedia(notas, quantidade));  // Exibe a média das notas
+                } else {
+                    printf("Nenhuma nota inserida.\n");
+                }
+                break;
+            case 6:
+                if (quantidade > 0) {  // Verifica se há notas inseridas
+                    printf("Moda: %.2f\n", calcularModa(notas, quantidade));  // Exibe a moda das notas
+                } else {
+                    printf("Nenhuma nota inserida.\n");
+                }
+                break;
+            case 7:
+                printf("Programa encerrado.\n");  // Exibe uma mensagem de encerramento
+                break;
+            default:
+                printf("Opção inválida. Tente novamente.\n");  // Se a opção for inválida
+        }
+    } while (opcao != 7);  // O loop continua até o usuário escolher a opção 7 para sair
+
+    return 0;  // Finaliza a execução do programa
+}
+
+// Função para inserir uma nova nota
+void inserirNota(float notas[], int *quantidade) {
+    if (*quantidade >= MAX_NOTAS) {  // Verifica se o número máximo de notas foi alcançado
+        printf("Limite de notas atingido.\n");
+        return;  // Sai da função se o limite de notas for atingido
+    }
+    
+    float nota;  // Variável para armazenar a nota inserida pelo usuário
+    printf("Digite a nota (0 a 10): ");
+    scanf("%f", &nota);  // Lê a nota inserida
+    
+    if (nota >= 0 && nota <= 10) {  // Verifica se a nota está no intervalo válido
+        notas[*quantidade] = nota;  // Armazena a nota no vetor
+        (*quantidade)++;  // Incrementa o contador de notas inseridas
+    } else {
+        printf("Nota inválida. Insira uma nota entre 0 e 10.\n");  // Mensagem de erro caso a nota seja inválida
+    }
+}
+
+// Função para exibir todas as notas inseridas
+void exibirNotas(const float notas[], int quantidade) {
+    if (quantidade == 0) {  // Verifica se há notas inseridas
+        printf("Nenhuma nota inserida.\n");  // Mensagem caso não haja notas
+    } else {
+        printf("Notas inseridas: ");
+        for (int i = 0; i < quantidade; i++) {  // Exibe todas as notas armazenadas
+            printf("%.2f ", notas[i]);
+        }
+        printf("\n");  // Pula uma linha após a lista de notas
+    }
+}
+
+// Função para encontrar a maior nota
+float encontrarMaior(const float notas[], int quantidade) {
+    float maior = notas[0];  // Inicializa a maior nota como sendo a primeira do vetor
+    for (int i = 1; i < quantidade; i++) {  // Percorre todas as notas para encontrar a maior
+        if (notas[i] > maior) {  // Se encontrar uma nota maior, atualiza a variável maior
+            maior = notas[i];
+        }
+    }
+    return maior;  // Retorna a maior nota encontrada
+}
+
+// Função para encontrar a menor nota
+float encontrarMenor(const float notas[], int quantidade) {
+    float menor = notas[0];  // Inicializa a menor nota como sendo a primeira do vetor
+    for (int i = 1; i < quantidade; i++) {  // Percorre todas as notas para encontrar a menor
+        if (notas[i] < menor) {  // Se encontrar uma nota menor, atualiza a variável menor
+            menor = notas[i];
+        }
+    }
+    return menor;  // Retorna a menor nota encontrada
+}
+
+// Função para calcular a média das notas
+float calcularMedia(const float notas[], int quantidade) {
+    float soma = 0;  // Inicializa a soma das notas como zero
+    for (int i = 0; i < quantidade; i++) {  // Soma todas as notas
+        soma += notas[i];
+    }
+    return soma / quantidade;  // Retorna a média dividindo a soma pelo número de notas
+}
+
+// Função para calcular a moda das notas (nota que mais se repete)
+float calcularModa(const float notas[], int quantidade) {
+    int contagem[MAX_NOTAS] = {0};  // Vetor para armazenar a contagem de cada nota
+    int maxCount = 0;  // Variável para armazenar a maior contagem encontrada
+    float moda = notas[0];  // Inicializa a moda com a primeira nota
+    
+    for (int i = 0; i < quantidade; i++) {  // Conta quantas vezes cada nota aparece
+        int count = 0;
+        for (int j = 0; j < quantidade; j++) {
+            if (notas[i] == notas[j]) {
+                count++;  // Conta o número de ocorrências da nota
+            }
+        }
+        if (count > maxCount) {  // Se a contagem for maior que a maior contagem encontrada, atualiza a moda
+            maxCount = count;
+            moda = notas[i];
+        }
+    }
+    
+    return moda;  // Retorna a moda (nota que mais se repete)
+}
